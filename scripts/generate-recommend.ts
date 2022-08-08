@@ -1,4 +1,4 @@
-import stripJsonComments from "https://esm.sh/strip-json-comments";
+import { parse } from "https://deno.land/std/encoding/jsonc.ts";
 import * as bufio from "https://deno.land/std/io/bufio.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 
@@ -12,7 +12,7 @@ for await (const line of bufio.readLines(p.stdout!)) {
 
 let packageText = await Deno.readTextFile(path.join(tsconfigStorage, "tsconfig.json"));
 // This will strip comments
-const parsed = JSON.parse(stripJsonComments(packageText));
+const parsed = parse(packageText) as any;
 
 parsed["$schema"] = "https://json.schemastore.org/tsconfig";
 parsed.display = "Recommended";
